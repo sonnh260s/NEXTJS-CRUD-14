@@ -51,9 +51,14 @@ const EmployeeList = () => {
         getEmployeeList(page, pageSize);
     }
 
+    function formatDate(dateString) {
+        return new Date(dateString).toISOString().slice(0, 19).replace('T', ' ');
+    }
+    
     useEffect(() => {
         getEmployeeList(currentPage, pageSize);
     }, [currentPage, pageSize]);
+
     return (
         <div className=' flex justify-center items-center h-screen'>
             <div className="flex flex-col">
@@ -112,6 +117,12 @@ const EmployeeList = () => {
                                         </th>
                                         <th
                                             scope="col"
+                                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase "
+                                        >
+                                            Created At
+                                        </th>
+                                        <th
+                                            scope="col"
                                             className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase "
                                         >
                                             Action
@@ -125,7 +136,7 @@ const EmployeeList = () => {
                                     </tr>
                                 </thead>
                                 {employee.map((item, index) => {
-                                    const { _id, name, email, address, salary } = item
+                                    const { _id, name, email, address, salary, date } = item
                                     return (
                                         <tbody key={index} className="divide-y divide-gray-200">
                                             <tr>
@@ -142,10 +153,13 @@ const EmployeeList = () => {
                                                     {address}
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 ">
-                                                    ₹ {salary}
+                                                    $ {salary}
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 ">
+                                                    {formatDate(date)}
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                    <Link href={`/employee/${_id}?page=${currentPage}`} className="text-green-600">
+                                                    <Link href={_id} className="text-green-600">
                                                         Edit
                                                     </Link>
                                                 </td>

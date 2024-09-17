@@ -2,6 +2,8 @@ import { connectDb } from "@/database/db";
 import { Employee } from "@/models/Employee";
 import { NextResponse } from "next/server";
 
+connectDb();
+
 export async function GET(request) {
     try {
         // Lấy số trang hiện tại và số lượng mục trên mỗi trang từ query params
@@ -14,7 +16,7 @@ export async function GET(request) {
 
         // Lấy tổng số nhân viên và phân trang
         const totalEmployees = await Employee.countDocuments();
-        const employees = await Employee.find().skip(skip).limit(limit);
+        const employees = await Employee.find().sort({ date: -1 }).skip(skip).limit(limit);
 
         return NextResponse.json({
             totalEmployees,

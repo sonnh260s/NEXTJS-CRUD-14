@@ -1,6 +1,40 @@
-
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+  const generatePages = () => {
+    const pages = [];
+
+    if (totalPages <= 5) {
+      // Hiển thị tất cả trang nếu tổng số trang nhỏ hơn hoặc bằng 5
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      // Hiển thị trang đầu tiên
+      pages.push(1);
+
+      if (currentPage > 3) {
+        pages.push('...');
+      }
+
+      // Hiển thị các trang xung quanh trang hiện tại (trang hiện tại và 2 trang trước, 2 trang sau)
+      const startPage = Math.max(2, currentPage - 1);
+      const endPage = Math.min(totalPages - 1, currentPage + 1);
+
+      for (let i = startPage; i <= endPage; i++) {
+        pages.push(i);
+      }
+
+      if (currentPage < totalPages - 2) {
+        pages.push('...');
+      }
+
+      // Hiển thị trang cuối cùng
+      pages.push(totalPages);
+    }
+
+    return pages;
+  };
+
+  const pages = generatePages();
 
   return (
     <div className="flex justify-center mt-4">
@@ -10,23 +44,28 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
           <li className="mx-1">
             <button
               onClick={() => onPageChange(currentPage - 1)}
-              disabled={currentPage === 1} // Vô hiệu hóa nếu là trang đầu tiên
+              disabled={currentPage === 1}
               className="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium bg-white"
             >
               Previous
             </button>
           </li>
 
-          {pages.map((page) => (
-            <li key={page} className="mx-1">
-              <button
-                onClick={() => onPageChange(page)}
-                className={`px-3 py-1 border border-gray-300 rounded-md text-sm font-medium ${
-                  page === currentPage ? 'bg-gray-200' : 'bg-white'
-                }`}
-              >
-                {page}
-              </button>
+          {/* Hiển thị các trang */}
+          {pages.map((page, index) => (
+            <li key={index} className="mx-1">
+              {page === '...' ? (
+                <span className="px-3 py-1 text-sm font-medium">...</span>
+              ) : (
+                <button
+                  onClick={() => onPageChange(page)}
+                  className={`px-3 py-1 border border-gray-300 rounded-md text-sm font-medium ${
+                    page === currentPage ? 'bg-gray-200' : 'bg-white'
+                  }`}
+                >
+                  {page}
+                </button>
+              )}
             </li>
           ))}
 
@@ -34,7 +73,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
           <li className="mx-1">
             <button
               onClick={() => onPageChange(currentPage + 1)}
-              disabled={currentPage === totalPages} // Vô hiệu hóa nếu là trang cuối cùng
+              disabled={currentPage === totalPages}
               className="px-3 py-1 border border-gray-300 rounded-md text-sm font-medium bg-white"
             >
               Next
@@ -45,7 +84,6 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
     </div>
   );
 };
-
   
-  export default Pagination;
+export default Pagination;
   

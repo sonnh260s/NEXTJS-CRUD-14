@@ -36,7 +36,7 @@ const AddEmployee = () => {
             alert(error)
         } else {
             alert(message)
-            router.push('/employee/employeelist')
+            router.push('/employee/dashboard')
         }
 
 
@@ -46,7 +46,7 @@ const AddEmployee = () => {
             <div className="form border shadow-md border-gray-400 rounded-xl py-6 px-9  ">
                 <div className="top">
                     <div className="flex gap-[40px] mb-5 items-center">
-                        <Link href='/employee/employeelist'>
+                        <Link href='/employee/dashboard'>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="m11.25 9-3 3m0 0 3 3m-3-3h7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                             </svg>
